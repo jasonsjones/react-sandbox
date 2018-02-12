@@ -1,0 +1,43 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A React app",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.config.dev.js --hot",
+    "build": "babel-node scripts/build.js",
+    "lint": "eslint webpack.config.js src/**/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "React"
+  ],
+  "author": "Jason Jones",
+  "license": "MIT",
+  "dependencies": {
+    "@salesforce-ux/design-system": "^2.3.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.1.2",
+    "react-svg-inline": "^2.0.1"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "eslint": "^4.17.0",
+    "eslint-plugin-react": "^7.6.1",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.29.0",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.6.2",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
+  }
+}
