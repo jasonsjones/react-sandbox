@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.dev.js --hot",
+    "clean": "rimraf dist/",
+    "prebuild": "npm run clean",
     "build": "babel-node scripts/build.js",
     "lint": "eslint webpack.config.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
