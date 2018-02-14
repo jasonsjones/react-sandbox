@@ -4,11 +4,11 @@
   "description": "A React app",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.dev.js --hot",
+    "start": "webpack-dev-server --hot --open --config webpack.config.dev.js",
     "clean": "rimraf dist/",
     "prebuild": "npm run clean",
     "build": "babel-node scripts/build.js",
-    "lint": "eslint webpack.config.js src/**/*.js",
+    "lint": "eslint webpack.config.js scripts/**/*.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
