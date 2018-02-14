@@ -13,7 +13,7 @@ module.exports = {
         ]
     },
     output: {
-        path: path.join(__dirname + '/dist/'),
+        path: path.resolve(__dirname, 'dist'),
         filename: '[name].js'
     },
     devServer: {
@@ -23,7 +23,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            sldsCss: path.join(__dirname + "/node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css")
+            sldsCss: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css')
         }
     },
     module: {
@@ -58,12 +58,14 @@ module.exports = {
         ]
     },
     plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "vendor",
         }),
-
-        new HtmlWebpackPlugin({
-            template: './src/index.html'
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "manifest",
         })
     ]
-}
+};
