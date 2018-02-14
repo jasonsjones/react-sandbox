@@ -4,7 +4,7 @@ import config from '../webpack.config.dev';
 webpack(config, (err, stats) => {
     if (err) {
         console.error(err);
-        retur;
+        return;
     }
 
     console.log(stats.toString({
