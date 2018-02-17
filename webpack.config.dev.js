@@ -23,7 +23,9 @@ module.exports = {
     },
     resolve: {
         alias: {
-            sldsCss: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css')
+            sldsCss: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'),
+            sldsImages: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/images'),
+            sldsIcons: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/icons')
         }
     },
     module: {
