@@ -17,6 +17,7 @@ module.exports = {
         filename: '[name].js'
     },
     devServer: {
+        contentBase: path.resolve(__dirname, 'dist'),
         inline: true,
         port: 4200,
         historyApiFallback: true
@@ -43,18 +44,37 @@ module.exports = {
             {
                 // TODO: use the ExtractTextPlugin to extract the css to own file
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader']
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
                 use: {
-                    loader: 'file-loader?name=/fonts/[name].[ext]'
+                    loader: 'file-loader',
+                    options: {
+                        name: 'fonts/[name].[ext]'
+                    }
                 }
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
                     loader: 'raw-loader'
+                }
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'assets/images/[name].[ext]'
+                    }
                 }
             }
         ]
