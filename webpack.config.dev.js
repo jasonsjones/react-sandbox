@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
         app: './src/index.js',
         vendor: [
@@ -83,10 +84,10 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
-        new webpack.optimize.CommonsChunkPlugin({
+        new webpack.optimize.SplitChunksPlugin({
             name: "vendor",
         }),
-        new webpack.optimize.CommonsChunkPlugin({
+        new webpack.optimize.SplitChunksPlugin({
             name: "manifest",
         })
     ]
