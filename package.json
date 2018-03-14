@@ -7,7 +7,8 @@
     "start": "webpack-dev-server --open --config webpack.config.dev.js",
     "clean": "rimraf dist/",
     "prebuild": "npm run clean",
-    "build": "babel-node tools/build.js",
+    "build:dev": "babel-node tools/build.js",
+    "build:prod": "webpack --config webpack.config.prod.js",
     "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
