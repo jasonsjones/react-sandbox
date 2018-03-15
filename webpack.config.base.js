@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -32,16 +33,11 @@ module.exports = {
                 }
             },
             {
-                // TODO: use the ExtractTextPlugin to extract the css to own file
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    }
-                ]
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader'
+                })
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
@@ -78,6 +74,7 @@ module.exports = {
         }),
         new webpack.optimize.SplitChunksPlugin({
             name: "manifest",
-        })
+        }),
+        new ExtractTextPlugin("styles.css"),
     ]
 };
