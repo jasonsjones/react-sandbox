@@ -1,13 +1,14 @@
 {
   "name": "app",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A React app",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.config.dev.js",
     "clean": "rimraf dist/",
     "prebuild": "npm run clean",
-    "build": "babel-node tools/build.js",
+    "build:dev": "babel-node tools/build.js",
+    "build:prod": "webpack --config webpack.config.prod.js",
     "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,11 +37,14 @@
     "eslint": "^4.17.0",
     "eslint-plugin-react": "^7.6.1",
     "file-loader": "^1.1.6",
-    "html-webpack-plugin": "^2.29.0",
+    "html-webpack-plugin": "^3.0.0",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.6.2",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.5.0"
+    "style-loader": "^0.20.0",
+    "uglifyjs-webpack-plugin": "^1.2.3",
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.0.0",
+    "webpack-merge": "^4.1.2"
   }
 }
