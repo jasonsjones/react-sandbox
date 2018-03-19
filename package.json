@@ -10,13 +10,19 @@
     "build:dev": "babel-node tools/build.js",
     "build:prod": "webpack --config webpack.config.prod.js",
     "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "React"
   ],
   "author": "Jason Jones",
   "license": "MIT",
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(eot|ttf|woff|woff2|svg)$": "<rootDir>/src/components/__mocks__/fileMock.js",
+      "\\.css$": "<rootDir>/src/components/__mocks__/styleMock.js"
+    }
+  },
   "dependencies": {
     "@salesforce-ux/design-system": "^2.3.1",
     "express": "^4.16.2",
@@ -30,6 +36,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.25.0",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^23.0.0-alpha.0",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -39,7 +46,9 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^3.0.0",
+    "jest": "^22.4.2",
     "raw-loader": "^0.5.1",
+    "react-test-renderer": "^16.2.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.20.0",
     "uglifyjs-webpack-plugin": "^1.2.3",

@@ -1,7 +1,7 @@
 import React from 'react';
 
+import 'sldsCss/salesforce-lightning-design-system.min.css';
 import 'sldsImages/logo.svg';
-import 'sldsCss';
 
 const GlobalHeader = () => {
     return (
