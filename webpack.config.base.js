@@ -9,6 +9,7 @@ module.exports = {
         vendor: [
             'react',
             'react-dom',
+            'prop-types',
             'react-router-dom',
             'react-svg-inline'
         ]
