@@ -1,20 +1,6 @@
 import React from 'react';
-import TextInput from '../TextInput';
 
-const LoginForm = () => {
-    return (
-        <div className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}}>
-            <div className="slds-form-element">
-
-                <TextInput type="text" size="large" id="text-input-id-1" label="Username"/>
-                <TextInput type="password" size="large" id="text-input-id-2" label="Password"/>
-
-                <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={{ width: '100%', height: '2.8rem' }}>Log In</button>
-
-            </div>
-        </div>
-    );
-};
+import LoginForm from './LoginForm';
 
 const LeftSide = () => {
     const css = {
