@@ -1,19 +1,30 @@
 import React from 'react';
 
 import LoginForm from './LoginForm';
+import 'sldsImages/logo-noname.svg';
 
 const LeftSide = () => {
-    const css = {
+    const loginFormStyles = {
         width: '400px',
-        margin: '300px auto 0',
+        margin: '0 auto',
         padding: '2rem',
         border: '1px solid #ccc',
         borderRadius: '8px'
     };
 
+    const imageStyles = {
+        margin: '150px auto 10px',
+        display: 'block',
+        height: '200px',
+        width: '200px'
+    };
+
     return (
         <div>
-            <section style={css}>
+            <section>
+                <img src="assets/images/logo-noname.svg" style={imageStyles}/>
+            </section>
+            <section style={loginFormStyles}>
                 <LoginForm/>
             </section>
         </div>
