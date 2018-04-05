@@ -14,8 +14,13 @@ class LoginForm extends React.Component {
         this.state = {
             email: '',
             password: '',
-            emailErrorMessage: '',
-            passwordErrorMessage: ''
+            formErrors: {
+                email: '',
+                password: ''
+            },
+            isEmailValid: false,
+            isPasswordValid: false,
+            isFormValid: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,52 +31,52 @@ class LoginForm extends React.Component {
         const { name, value } = e.target;
         this.setState({
             [name]: value
-        });
-        this.isFieldValid('email');
-        this.isFieldValid('password');
+        }, () => this.validateField(name, value));
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        if (this.isFormValid()) {
+        if (this.state.isFormValid) {
             console.log('process form submission here...');
             console.log('email: ' + this.state.email);
             console.log('password: ' + this.state.password);
             this.setState({
                 email: '',
-                password: ''
+                password: '',
+                isEmailValid: false,
+                isPasswordValid: false,
+                isFormValid: false
             });
         }
     }
 
     isFormValid() {
-        let isValid = true;
-        if (!this.state.email) {
-            this.setState({
-                emailErrorMessage: 'email field is required'
-            });
-            isValid = false;
-        }
-        if (!this.state.password) {
-            isValid = false;
-            this.setState({
-                passwordErrorMessage: 'password field is required'
-            });
-        }
-        return isValid;
+        this.setState({
+            isFormValid: this.state.isEmailValid && this.state.isPasswordValid
+        });
     }
 
-    isFieldValid(fieldName) {
-        if (fieldName === 'email' && this.state.email.length > 0) {
-            this.setState({
-                emailErrorMessage: ''
-            });
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let { isEmailValid, isPasswordValid } = this.state;
+        switch (fieldName) {
+        case 'email':
+            isEmailValid = value.length > 0;
+            fieldValidationErrors.email = isEmailValid ? '' : 'email field is required';
+            break;
+        case 'password':
+            isPasswordValid = value.length > 0;
+            fieldValidationErrors.password = isPasswordValid ? '' : 'password field is required';
+            break;
+        default:
+            break;
         }
-        if (fieldName === 'password' && this.state.email.length > 3) {
-            this.setState({
-                passwordErrorMessage: ''
-            });
-        }
+
+        this.setState({
+            formErrors: fieldValidationErrors,
+            isEmailValid,
+            isPasswordValid
+        }, this.isFormValid);
     }
 
     render() {
@@ -85,7 +90,7 @@ class LoginForm extends React.Component {
                     <TextInput type="password" size="large" name="password" errorMessage={this.state.passwordErrorMessage}
                         label="Password" handleChange={this.handleChange} value={this.state.password}/>
 
-                    <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
+                    <button type="submit" disabled={!this.state.isFormValid} className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
 
                 </div>
             </form>
