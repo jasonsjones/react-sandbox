@@ -20,7 +20,6 @@ class LoginForm extends React.Component {
             },
             isEmailValid: false,
             isPasswordValid: false,
-            isFormValid: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,7 +35,7 @@ class LoginForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        if (this.state.isFormValid) {
+        if (this.isFormValid()) {
             console.log('process form submission here...');
             console.log('email: ' + this.state.email);
             console.log('password: ' + this.state.password);
@@ -45,15 +44,16 @@ class LoginForm extends React.Component {
                 password: '',
                 isEmailValid: false,
                 isPasswordValid: false,
-                isFormValid: false
             });
         }
     }
 
     isFormValid() {
-        this.setState({
-            isFormValid: this.state.isEmailValid && this.state.isPasswordValid
-        });
+        const { email, password } = this.state;
+        this.validateField('email', email);
+        this.validateField('password', password);
+
+        return this.state.isEmailValid && this.state.isPasswordValid;
     }
 
     validateField(fieldName, value) {
@@ -76,7 +76,7 @@ class LoginForm extends React.Component {
             formErrors: fieldValidationErrors,
             isEmailValid,
             isPasswordValid
-        }, this.isFormValid);
+        });
     }
 
     render() {
@@ -84,13 +84,13 @@ class LoginForm extends React.Component {
             <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}} onSubmit={this.handleSubmit}>
                 <div className="slds-form-element">
 
-                    <TextInput type="text" size="large" name="email" errorMessage={this.state.emailErrorMessage}
+                    <TextInput type="text" size="large" name="email" errorMessage={this.state.formErrors.email}
                         label="Email" handleChange={this.handleChange} value={this.state.email}/>
 
-                    <TextInput type="password" size="large" name="password" errorMessage={this.state.passwordErrorMessage}
+                    <TextInput type="password" size="large" name="password" errorMessage={this.state.formErrors.password}
                         label="Password" handleChange={this.handleChange} value={this.state.password}/>
 
-                    <button type="submit" disabled={!this.state.isFormValid} className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
+                    <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
 
                 </div>
             </form>
