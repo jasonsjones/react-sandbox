@@ -1,5 +1,6 @@
 import React from 'react';
-import 'sldsImages/logo.svg';
+import SVGInline from 'react-svg-inline';
+import logo from 'sldsImages/logo.svg';
 
 const GlobalHeader = () => {
     return (
@@ -8,7 +9,8 @@ const GlobalHeader = () => {
             <a href="javascript:void(0);" className="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
             <div className="slds-global-header slds-grid slds-grid_align-spread">
                 <div className="slds-global-header__item">
-                    <div className="slds-global-header__logo">
+                    <div>
+                        <SVGInline svg={logo} width="50px" height="50px" />
                     </div>
                 </div>
             </div>

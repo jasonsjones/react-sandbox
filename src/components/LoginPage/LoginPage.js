@@ -1,7 +1,9 @@
 import React from 'react';
+import SVGInline from 'react-svg-inline';
 
 import LoginForm from './LoginForm';
 import 'sldsImages/logo-noname.svg';
+import logo from 'sldsImages/logo.svg';
 
 const LeftSide = () => {
     const loginFormStyles = {
@@ -13,16 +15,13 @@ const LeftSide = () => {
     };
 
     const imageStyles = {
-        margin: '150px auto 10px',
-        display: 'block',
-        height: '200px',
-        width: '200px'
+        margin: '150px 38% 10px'
     };
 
     return (
         <div>
-            <section>
-                <img src="assets/images/logo-noname.svg" style={imageStyles}/>
+            <section style={imageStyles}>
+                <SVGInline svg={logo} width="200px" height="200px" />
             </section>
             <section style={loginFormStyles}>
                 <LoginForm/>
