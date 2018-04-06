@@ -15,13 +15,16 @@ const LeftSide = () => {
     };
 
     const imageStyles = {
-        margin: '150px 38% 10px'
+        margin: '150px 35% 10px',
+        width: '50%'
     };
 
     return (
-        <div>
-            <section style={imageStyles}>
-                <SVGInline svg={logo} width="200px" height="200px" />
+        <div className="slds-grid slds-grid_vertical">
+            <section>
+                <div style={imageStyles} >
+                    <SVGInline svg={logo} width="200" />
+                </div>
             </section>
             <section style={loginFormStyles}>
                 <LoginForm/>
