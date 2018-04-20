@@ -3,6 +3,7 @@ data/
 uploads/
 public/
 dist/
+coverage/
 npm-debug.log
 yarn-error.log
 .config/
