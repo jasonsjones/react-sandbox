@@ -21,7 +21,8 @@
     "moduleNameMapper": {
       "\\.(eot|ttf|woff|woff2|svg)$": "<rootDir>/src/components/__mocks__/fileMock.js",
       "\\.css$": "<rootDir>/src/components/__mocks__/styleMock.js"
-    }
+    },
+    "coveragePathIgnorePatterns": [ "/node_modules/", "index.js"]
   },
   "dependencies": {
     "@salesforce-ux/design-system": "^2.3.1",
