@@ -1,14 +1,30 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { shallow, mount } from 'enzyme';
 
 import LoginPage from './LoginPage';
 
 describe('LoginPage component', () => {
 
     it('instantiates the LoginPage component', () => {
-        const component = renderer.create(
-            <LoginPage/>
-        );
-        expect(component).toBeDefined;
+        const wrapper = shallow(<LoginPage/>);
+        expect(wrapper).toBeDefined;
+    });
+
+    it('renders outer div with slds-grid', () => {
+        const wrapper = shallow(<LoginPage/>);
+        expect(wrapper.find('div').first().hasClass('slds-grid')).toBeTrue;
+    });
+
+    it('renders inner divs with slds-size_1-of-2', () => {
+        const wrapper = shallow(<LoginPage/>);
+        let children = wrapper.find('div').first().children();
+        expect(children).toHaveLength(2);
+        expect(children.first().hasClass('slds-size_1-of-2')).toBeTrue;
+        expect(children.last().hasClass('slds-size_1-of-2')).toBeTrue;
+    });
+
+    it('renders one <LoginForm /> component', () => {
+        const wrapper = mount(<LoginPage/>);
+        expect(wrapper.find('LoginForm')).toHaveLength(1);
     });
 });
