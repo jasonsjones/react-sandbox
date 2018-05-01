@@ -6,16 +6,22 @@ import LoginPage from './LoginPage';
 
 import 'sldsCss/salesforce-lightning-design-system.min.css';
 
-const App = () => {
-    const isAuthenticated = true;
-    return (
-        <BrowserRouter>
-            <div>
-                <Route exact path='/' render={() => (isAuthenticated ? <OneAppPage/> : <LoginPage />)} />
-                <Route exact path='/login' component={LoginPage} />
-            </div>
-        </BrowserRouter>
-    );
-};
-
-export default App;
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isAuthenticated: true
+        };
+    }
+    render() {
+        const { isAuthenticated } = this.state;
+        return (
+            <BrowserRouter>
+                <div>
+                    <Route exact path='/' render={() => (isAuthenticated ? <OneAppPage/> : <LoginPage />)} />
+                    <Route exact path='/login' component={LoginPage} />
+                </div>
+            </BrowserRouter>
+        );
+    }
+}
