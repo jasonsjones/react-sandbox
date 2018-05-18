@@ -17,6 +17,6 @@ describe('App component', () => {
 
     it('has two <Route /> component', () => {
         const wrapper = shallow(<App/>);
-        expect(wrapper.find('Route')).toHaveLength(2);
+        expect(wrapper.find('Route')).toHaveLength(3);
     });
 });
