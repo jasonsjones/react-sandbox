@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import OneAppPage from './OneAppPage';
 import LoginPage from './LoginPage';
+import NotFoundPage from './NotFoundPage';
 
 import 'sldsCss/salesforce-lightning-design-system.min.css';
 
@@ -17,10 +18,11 @@ export default class App extends React.Component {
         const { isAuthenticated } = this.state;
         return (
             <BrowserRouter>
-                <div>
+                <Switch>
                     <Route exact path='/' render={() => (isAuthenticated ? <OneAppPage/> : <LoginPage />)} />
                     <Route exact path='/login' component={LoginPage} />
-                </div>
+                    <Route component={NotFoundPage} />
+                </Switch>
             </BrowserRouter>
         );
     }
