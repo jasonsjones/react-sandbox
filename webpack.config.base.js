@@ -9,13 +9,14 @@ module.exports = {
         vendor: [
             'react',
             'react-dom',
+            'prop-types',
             'react-router-dom',
             'react-svg-inline'
         ]
     },
     resolve: {
         alias: {
-            sldsCss: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'),
+            sldsCss: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/styles'),
             sldsImages: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/images'),
             sldsIcons: path.resolve(__dirname, 'node_modules/@salesforce-ux/design-system/assets/icons')
         }
@@ -36,7 +37,9 @@ module.exports = {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: 'css-loader'
+                    use: {
+                        loader: 'css-loader'
+                    }
                 })
             },
             {
@@ -55,7 +58,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.(jpg|png|svg)$/,
+                test: /\.(jpg|png|gif)$/,
                 use: {
                     loader: 'file-loader',
                     options: {
