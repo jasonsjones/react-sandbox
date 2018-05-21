@@ -4,11 +4,11 @@
   "description": "A React app",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack.config.dev.js",
+    "start": "webpack-dev-server --open --config webpack-dev.config.babel.js",
     "clean": "rimraf dist/",
     "prebuild": "npm run clean",
     "build:dev": "babel-node tools/build.js",
-    "build:prod": "webpack --config webpack.config.prod.js",
+    "build:prod": "webpack --config webpack-prod.config.babel.js",
     "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
     "test": "jest"
   },

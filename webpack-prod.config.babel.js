@@ -1,9 +1,11 @@
-const path = require('path');
-const merge = require('webpack-merge');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const baseConfig = require('./webpack.config.base');
+import path from 'path';
+import merge from 'webpack-merge';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import getBaseConfig from './webpack-base.config.babel';
 
-module.exports = merge(baseConfig, {
+const baseConfig = getBaseConfig();
+
+export default merge(baseConfig, {
     mode: 'production',
     output: {
         path: path.resolve(__dirname, 'dist'),

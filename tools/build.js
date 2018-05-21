@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import config from '../webpack.config.dev';
+import config from '../webpack-dev.config.babel';
 
 webpack(config, (err, stats) => {
     if (err) {
