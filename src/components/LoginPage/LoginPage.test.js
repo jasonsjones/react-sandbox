@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import LoginPage from './LoginPage';
 
@@ -21,10 +21,5 @@ describe('LoginPage component', () => {
         expect(children).toHaveLength(2);
         expect(children.first().hasClass('slds-size_1-of-2')).toBeTrue;
         expect(children.last().hasClass('slds-size_1-of-2')).toBeTrue;
-    });
-
-    it('renders one <LoginForm /> component', () => {
-        const wrapper = mount(<LoginPage/>);
-        expect(wrapper.find('LoginForm')).toHaveLength(1);
     });
 });
