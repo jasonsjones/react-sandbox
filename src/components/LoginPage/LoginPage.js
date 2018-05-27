@@ -1,6 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 
+import { AuthConsumer } from '../../context/auth-context';
 import LoginForm from './LoginForm';
 import 'sldsImages/logo-noname.svg';
 import logo from 'sldsImages/logo.svg';
@@ -32,15 +34,27 @@ const LeftSide = () => {
     );
 };
 
+const renderLoginPage = () => (
+    <div className="slds-grid slds-grid_frame">
+        <div className="slds-size_1-of-2 slds-p-horizontal_medium">
+            <LeftSide />
+        </div>
+        <div className="slds-size_1-of-2 slds-p-horizontal_medium" style={{ backgroundColor: "#efefef" }}>
+        </div>
+    </div>
+);
+
 const LoginPage = () => {
     return (
-        <div className="slds-grid slds-grid_frame">
-            <div className="slds-size_1-of-2 slds-p-horizontal_medium">
-                <LeftSide />
-            </div>
-            <div className="slds-size_1-of-2 slds-p-horizontal_medium" style={{ backgroundColor: "#efefef" }}>
-            </div>
-        </div>
+        <AuthConsumer>
+            {({ isAuth }) => (
+                isAuth ? (
+                    <Redirect to='/'/>
+                ) : (
+                    renderLoginPage()
+                )
+            )}
+        </AuthConsumer>
     );
 };
 

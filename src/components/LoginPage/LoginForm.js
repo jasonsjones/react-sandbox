@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AuthContext } from '../../context/auth-context';
+import { AuthConsumer } from '../../context/auth-context';
 import TextInput from '../TextInput';
 
 const styles = {
@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
         }, () => this.validateField(name, value));
     }
 
-    handleSubmit(e, authAction) {
+    handleSubmit(e, login) {
         e.preventDefault();
         if (this.isFormValid()) {
             console.log('process form submission here...');
@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
                 isEmailValid: false,
                 isPasswordValid: false,
             });
-            authAction(true);
+            login();
         }
     }
 
@@ -84,10 +84,10 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <AuthContext.Consumer>
-                {context => (
+            <AuthConsumer>
+                {({ login }) => (
                     <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}}
-                        onSubmit={event => this.handleSubmit(event, context.setAuthenticated)}>
+                        onSubmit={event => this.handleSubmit(event, login)}>
                         <div className="slds-form-element">
 
                             <TextInput type="text" size="large" name="email" errorMessage={this.state.formErrors.email}
@@ -100,7 +100,7 @@ class LoginForm extends React.Component {
                         </div>
                     </form>
                 )}
-            </AuthContext.Consumer>
+            </AuthConsumer>
         );
     }
 }
