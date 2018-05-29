@@ -15,7 +15,7 @@ describe('LoginPage component', () => {
         expect(wrapper.find('div').first().hasClass('slds-grid')).toBeTrue;
     });
 
-    it('renders inner divs with slds-size_1-of-2', () => {
+    it.skip('renders inner divs with slds-size_1-of-2', () => {
         const wrapper = shallow(<LoginPage/>);
         let children = wrapper.find('div').first().children();
         expect(children).toHaveLength(2);

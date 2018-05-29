@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const AuthContext = React.createContext();
 
 class AuthProvider extends React.Component {
+    static propTypes = {
+        children: PropTypes.element.isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
