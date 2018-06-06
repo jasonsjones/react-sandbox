@@ -82,10 +82,14 @@ class LoginForm extends React.Component {
         });
     }
 
+    getButtonLabel(isFetchingData) {
+        return isFetchingData ? 'Logging In...' : 'Log In';
+    }
+
     render() {
         return (
             <AuthConsumer>
-                {({ login }) => (
+                {({ login, fetchingData }) => (
                     <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}}
                         onSubmit={event => this.handleSubmit(event, login)}>
                         <div className="slds-form-element">
@@ -96,7 +100,7 @@ class LoginForm extends React.Component {
                             <TextInput type="password" size="large" name="password" errorMessage={this.state.formErrors.password}
                                 label="Password" handleChange={this.handleChange} value={this.state.password}/>
 
-                            <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
+                            <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>{this.getButtonLabel(fetchingData)}</button>
                         </div>
                     </form>
                 )}
