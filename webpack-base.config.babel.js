@@ -30,7 +30,7 @@ export default () => {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['env', 'react']
+                            presets: ['env', 'react', 'stage-3', 'stage-2']
                         }
                     }
                 },

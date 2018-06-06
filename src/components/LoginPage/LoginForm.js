@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { AuthConsumer } from '../../context/auth-context';
 import TextInput from '../TextInput';
 
 const styles = {
@@ -33,7 +35,7 @@ class LoginForm extends React.Component {
         }, () => this.validateField(name, value));
     }
 
-    handleSubmit(e) {
+    handleSubmit(e, login) {
         e.preventDefault();
         if (this.isFormValid()) {
             console.log('process form submission here...');
@@ -45,6 +47,7 @@ class LoginForm extends React.Component {
                 isEmailValid: false,
                 isPasswordValid: false,
             });
+            login();
         }
     }
 
@@ -79,21 +82,29 @@ class LoginForm extends React.Component {
         });
     }
 
+    getButtonLabel(isFetchingData) {
+        return isFetchingData ? 'Logging In...' : 'Log In';
+    }
+
     render() {
         return (
-            <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}} onSubmit={this.handleSubmit}>
-                <div className="slds-form-element">
+            <AuthConsumer>
+                {({ login, fetchingData }) => (
+                    <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}}
+                        onSubmit={event => this.handleSubmit(event, login)}>
+                        <div className="slds-form-element">
 
-                    <TextInput type="text" size="large" name="email" errorMessage={this.state.formErrors.email}
-                        label="Email" handleChange={this.handleChange} value={this.state.email}/>
+                            <TextInput type="text" size="large" name="email" errorMessage={this.state.formErrors.email}
+                                label="Email" handleChange={this.handleChange} value={this.state.email}/>
 
-                    <TextInput type="password" size="large" name="password" errorMessage={this.state.formErrors.password}
-                        label="Password" handleChange={this.handleChange} value={this.state.password}/>
+                            <TextInput type="password" size="large" name="password" errorMessage={this.state.formErrors.password}
+                                label="Password" handleChange={this.handleChange} value={this.state.password}/>
 
-                    <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>Log In</button>
-
-                </div>
-            </form>
+                            <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>{this.getButtonLabel(fetchingData)}</button>
+                        </div>
+                    </form>
+                )}
+            </AuthConsumer>
         );
     }
 }
