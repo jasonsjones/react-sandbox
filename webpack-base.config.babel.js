@@ -71,13 +71,12 @@ export default () => {
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: './src/index.html'
+                template: './src/index.html',
+                title: 'React Sanbox',
+                favicon: './assets/favicon-32x32.png'
             }),
             new webpack.optimize.SplitChunksPlugin({
                 name: "vendor",
-            }),
-            new webpack.optimize.SplitChunksPlugin({
-                name: "manifest",
             }),
             new ExtractTextPlugin("styles.css"),
         ]
