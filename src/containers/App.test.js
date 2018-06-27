@@ -5,18 +5,24 @@ import App from './App';
 
 describe('App component', () => {
 
+    let wrapper;
+    beforeEach(() => {
+        wrapper = shallow(<App/>);
+    });
+
     it('instantiates the base component', () => {
-        const wrapper = shallow(<App/>);
         expect(wrapper).toBeDefined;
     });
 
     it('has one <BrowserRouter/> component', () => {
-        const wrapper = shallow(<App/>);
         expect(wrapper.find('BrowserRouter')).toHaveLength(1);
     });
 
-    it.skip('has three <Route /> component', () => {
-        const wrapper = shallow(<App/>);
-        expect(wrapper.find('Route')).toHaveLength(3);
+    it('has one <AuthProvider/> component', () => {
+        expect(wrapper.find('AuthProvider')).toHaveLength(1);
+    });
+
+    it('has two <Route /> component', () => {
+        expect(wrapper.find('Route')).toHaveLength(2);
     });
 });
