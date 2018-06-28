@@ -19,8 +19,8 @@ export default class App extends React.Component {
             <BrowserRouter>
                 <AuthProvider>
                     <Switch>
-                        <ProtectedRoute exact path='/' component={OneAppPage} />
-                        <Route exact path='/login' component={LoginPage}/>
+                        <ProtectedRoute exact path="/" component={OneAppPage} />
+                        <Route exact path="/login" component={LoginPage} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </AuthProvider>
