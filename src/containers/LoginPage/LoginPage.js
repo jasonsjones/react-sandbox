@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 
-import { AuthConsumer } from '../../context/auth-context';
 import LoginForm from '../../components/LoginForm';
 import 'sldsImages/logo-noname.svg';
 import logo from 'sldsImages/logo.svg';
@@ -44,12 +45,16 @@ const renderLoginPage = () => (
     </div>
 );
 
-const LoginPage = () => {
-    return (
-        <AuthConsumer>
-            {({ isAuth }) => (isAuth ? <Redirect to="/" /> : renderLoginPage())}
-        </AuthConsumer>
-    );
+const LoginPage = props => {
+    return props.isAuth ? <Redirect to="/" /> : renderLoginPage();
 };
 
-export default LoginPage;
+LoginPage.propTypes = {
+    isAuth: PropTypes.bool
+};
+
+export default connect(state => {
+    return {
+        isAuth: state.isAuth
+    };
+})(LoginPage);
