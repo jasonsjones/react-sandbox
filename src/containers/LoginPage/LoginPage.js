@@ -45,7 +45,7 @@ const renderLoginPage = () => (
     </div>
 );
 
-const LoginPage = props => {
+export const LoginPage = props => {
     return props.isAuth ? <Redirect to="/" /> : renderLoginPage();
 };
 
