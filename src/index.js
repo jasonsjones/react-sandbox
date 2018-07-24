@@ -12,12 +12,12 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'AUTH_LOGIN_FETCHING':
+        case 'USER_LOGIN_REQUEST':
             return {
                 ...state,
                 isFetchingData: true
             };
-        case 'AUTH_LOGIN_USER':
+        case 'USER_LOGIN_SUCCESS':
             return {
                 ...state,
                 isAuth: true

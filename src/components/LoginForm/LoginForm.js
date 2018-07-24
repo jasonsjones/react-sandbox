@@ -174,9 +174,9 @@ const mapDispatchToProps = dispatch => {
     return {
         login: () => {
             setTimeout(() => {
-                dispatch({ type: 'AUTH_LOGIN_USER' });
+                dispatch({ type: 'USER_LOGIN_SUCCESS' });
             }, 2000);
-            dispatch({ type: 'AUTH_LOGIN_FETCHING' });
+            dispatch({ type: 'USER_LOGIN_REQUEST' });
         }
     };
 };
