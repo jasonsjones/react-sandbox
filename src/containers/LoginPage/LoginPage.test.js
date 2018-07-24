@@ -9,7 +9,13 @@ describe('LoginPage component', () => {
         expect(wrapper).toBeDefined;
     });
 
-    it('renders the login form if the user is not authenticated');
+    it('renders the login form if the user is not authenticated', () => {
+        const wrapper = shallow(<LoginPage isAuth={false} />);
+        expect(wrapper.find('Connect(LoginForm)')).toHaveLength(1);
+    });
 
-    it('renders a Redirect if the user is authenticated');
+    it('renders a Redirect if the user is authenticated', () => {
+        const wrapper = shallow(<LoginPage isAuth={true} />);
+        expect(wrapper.find('Redirect')).toHaveLength(1);
+    });
 });
