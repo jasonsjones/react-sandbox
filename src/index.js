@@ -10,7 +10,7 @@ const defaultState = {
     isFetchingData: false
 };
 
-const reducer = (state, action) => {
+const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case 'AUTH_LOGIN_FETCHING':
             return {
@@ -27,7 +27,7 @@ const reducer = (state, action) => {
     }
 };
 
-const store = createStore(reducer, defaultState);
+const store = createStore(reducer);
 
 ReactDOM.render(
     <Provider store={store}>
