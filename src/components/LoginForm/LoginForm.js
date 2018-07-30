@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { AuthConsumer } from '../../context/auth-context';
 import TextInput from '../TextInput';
 import CheckBox from '../CheckBox';
 
@@ -11,7 +12,7 @@ const styles = {
     }
 };
 
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,7 +47,7 @@ class LoginForm extends React.Component {
         });
     }
 
-    handleSubmit(e, login) {
+    handleSubmit(e) {
         e.preventDefault();
         if (this.isFormValid()) {
             console.log('process form submission here...');
@@ -59,7 +60,7 @@ class LoginForm extends React.Component {
                 isEmailValid: false,
                 isPasswordValid: false
             });
-            login();
+            this.props.login();
         }
     }
 
@@ -101,64 +102,86 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        const { isFetchingData } = this.props;
         return (
-            <AuthConsumer>
-                {({ login, fetchingData }) => (
-                    <div>
-                        <form
-                            className="slds-form slds-form_stacked"
-                            style={{ backgroundColor: 'ddd' }}
-                            onSubmit={event => this.handleSubmit(event, login)}
-                        >
-                            <div className="slds-form-element">
-                                <TextInput
-                                    type="text"
-                                    size="large"
-                                    name="email"
-                                    errorMessage={this.state.formErrors.email}
-                                    label="Email"
-                                    handleChange={this.handleChange}
-                                    value={this.state.email}
-                                />
+            <div>
+                <form
+                    className="slds-form slds-form_stacked"
+                    style={{ backgroundColor: 'ddd' }}
+                    onSubmit={event => this.handleSubmit(event)}
+                >
+                    <div className="slds-form-element">
+                        <TextInput
+                            type="text"
+                            size="large"
+                            name="email"
+                            errorMessage={this.state.formErrors.email}
+                            label="Email"
+                            handleChange={this.handleChange}
+                            value={this.state.email}
+                        />
 
-                                <TextInput
-                                    type="password"
-                                    size="large"
-                                    name="password"
-                                    errorMessage={this.state.formErrors.password}
-                                    label="Password"
-                                    handleChange={this.handleChange}
-                                    value={this.state.password}
-                                />
+                        <TextInput
+                            type="password"
+                            size="large"
+                            name="password"
+                            errorMessage={this.state.formErrors.password}
+                            label="Password"
+                            handleChange={this.handleChange}
+                            value={this.state.password}
+                        />
 
-                                <button
-                                    type="submit"
-                                    className="slds-button slds-button_brand slds-m-top_medium"
-                                    style={styles.button}
-                                >
-                                    {this.getButtonLabel(fetchingData)}
-                                </button>
-                            </div>
-                        </form>
-                        <div className="slds-m-top_medium">
-                            <CheckBox
-                                id="checkbox-rememberme"
-                                label="Remember me"
-                                handleChange={this.handleCheckboxChange}
-                            />
-                        </div>
-                        <div
-                            className="slds-grid slds-grid_align-spread slds-p-top_medium slds-m-top_medium"
-                            style={{ borderTop: '1px solid #ddd' }}
+                        <button
+                            type="submit"
+                            className="slds-button slds-button_brand slds-m-top_medium"
+                            style={styles.button}
                         >
-                            <a href="javascript:void(0)">Forgot Your Password?</a>
-                            <a href="javascript:void(0)">Use Custom Domain</a>
-                        </div>
+                            {this.getButtonLabel(isFetchingData)}
+                        </button>
                     </div>
-                )}
-            </AuthConsumer>
+                </form>
+                <div className="slds-m-top_medium">
+                    <CheckBox
+                        id="checkbox-rememberme"
+                        label="Remember me"
+                        handleChange={this.handleCheckboxChange}
+                    />
+                </div>
+                <div
+                    className="slds-grid slds-grid_align-spread slds-p-top_medium slds-m-top_medium"
+                    style={{ borderTop: '1px solid #ddd' }}
+                >
+                    <a href="javascript:void(0)">Forgot Your Password?</a>
+                    <a href="javascript:void(0)">Use Custom Domain</a>
+                </div>
+            </div>
         );
     }
 }
 
-export default LoginForm;
+LoginForm.propTypes = {
+    isFetchingData: PropTypes.bool,
+    login: PropTypes.func
+};
+
+const mapStateToProps = state => {
+    return {
+        isFetchingData: state.isFetchingData
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: () => {
+            setTimeout(() => {
+                dispatch({ type: 'USER_LOGIN_SUCCESS' });
+            }, 2000);
+            dispatch({ type: 'USER_LOGIN_REQUEST' });
+        }
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginForm);

@@ -1,23 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-import { AuthConsumer } from '../context/auth-context';
-
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-    <AuthConsumer>
-        {({ isAuth }) => (
-            <Route render={ props =>
-                isAuth ? <Component {...props} /> : <Redirect to='/login'/>
-            }
-            {...rest}
-            />
-        )}
-    </AuthConsumer>
-);
-
-ProtectedRoute.propTypes = {
-    component: PropTypes.func
+export const ProtectedRoute = props => {
+    const { component: Component, isAuth, ...rest } = props;
+    return <Route render={() => (isAuth ? <Component {...rest} /> : <Redirect to="/login" />)} />;
 };
 
-export default ProtectedRoute;
+ProtectedRoute.propTypes = {
+    component: PropTypes.func,
+    isAuth: PropTypes.bool
+};
+
+const mapStateToProps = state => {
+    return {
+        isAuth: state.isAuth
+    };
+};
+
+export default connect(mapStateToProps)(ProtectedRoute);
