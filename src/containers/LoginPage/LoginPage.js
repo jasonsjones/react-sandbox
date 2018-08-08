@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import SVGInline from 'react-svg-inline';
 
 import LoginForm from '../../components/LoginForm';
@@ -30,6 +30,18 @@ const renderLeftSide = () => {
                 <section style={loginFormStyles}>
                     <LoginForm />
                 </section>
+                <div className="slds-grid slds-grid_align-space slds-grid_vertical-align-center slds-m-top_large">
+                    <p>Not a Customer?</p>
+                    <Link to="/signup">
+                        <button
+                            type="button"
+                            className="slds-button slds-button_neutral slds-m-left_large"
+                            style={{ height: '40px', fontSize: '14px' }}
+                        >
+                            Try for Free
+                        </button>
+                    </Link>
+                </div>
             </div>
         </section>
     );
