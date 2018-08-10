@@ -22,7 +22,7 @@ const imageStyles = {
 
 const renderLeftSide = () => {
     return (
-        <section style={{ width: '400px', margin: '25% auto' }}>
+        <section style={{ width: '400px', margin: '15% auto' }}>
             <div className="slds-grid slds-grid_vertical slds-grid_vertical-align-center">
                 <div style={imageStyles}>
                     <SVGInline svg={logo} width="200" />
