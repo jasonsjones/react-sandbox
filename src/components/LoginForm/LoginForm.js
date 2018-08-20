@@ -26,13 +26,9 @@ export class LoginForm extends React.Component {
             isEmailValid: false,
             isPasswordValid: false
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
-    handleChange(e) {
+    handleChange = e => {
         const { name, value } = e.target;
         this.setState(
             {
@@ -40,15 +36,15 @@ export class LoginForm extends React.Component {
             },
             () => this.validateField(name, value)
         );
-    }
+    };
 
-    handleCheckboxChange(e) {
+    handleCheckboxChange = e => {
         this.setState({
             rememberMe: e.target.checked
         });
-    }
+    };
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         if (this.isFormValid()) {
             this.props.login({
@@ -58,7 +54,7 @@ export class LoginForm extends React.Component {
             });
             this.resetState();
         }
-    }
+    };
 
     isFormValid() {
         const { email, password } = this.state;

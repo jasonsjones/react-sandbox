@@ -23,11 +23,9 @@ export class SignupForm extends React.Component {
             isEmailValid: false,
             isPasswordValid: false
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleSubmit(e) {
+    handleSubmit = e => {
         e.preventDefault();
         if (this.isFormValid()) {
             this.props.signup({
@@ -37,9 +35,9 @@ export class SignupForm extends React.Component {
             });
             this.resetState();
         }
-    }
+    };
 
-    handleChange(e) {
+    handleChange = e => {
         const { name, value } = e.target;
         this.setState(
             {
@@ -47,7 +45,7 @@ export class SignupForm extends React.Component {
             },
             () => this.validateField(name, value)
         );
-    }
+    };
 
     isFormValid() {
         const { name, email, password } = this.state;
