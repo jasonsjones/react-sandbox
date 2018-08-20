@@ -4,10 +4,9 @@ import { shallow } from 'enzyme';
 import App from './App';
 
 describe('App component', () => {
-
     let wrapper;
     beforeEach(() => {
-        wrapper = shallow(<App/>);
+        wrapper = shallow(<App />);
     });
 
     it('instantiates the base component', () => {
@@ -18,11 +17,7 @@ describe('App component', () => {
         expect(wrapper.find('BrowserRouter')).toHaveLength(1);
     });
 
-    it('has one <AuthProvider/> component', () => {
-        expect(wrapper.find('AuthProvider')).toHaveLength(1);
-    });
-
-    it('has two <Route /> component', () => {
-        expect(wrapper.find('Route')).toHaveLength(2);
+    it('has three <Route /> component', () => {
+        expect(wrapper.find('Route')).toHaveLength(3);
     });
 });

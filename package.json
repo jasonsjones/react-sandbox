@@ -1,6 +1,6 @@
 {
     "name": "app",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "A React app",
     "main": "index.js",
     "scripts": {
@@ -34,8 +34,10 @@
         "prop-types": "^15.6.1",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
+        "react-redux": "^5.0.7",
         "react-router-dom": "^4.1.2",
-        "react-svg-inline": "^2.0.1"
+        "react-svg-inline": "^2.0.1",
+        "redux": "^4.0.0"
     },
     "devDependencies": {
         "babel": "^6.23.0",

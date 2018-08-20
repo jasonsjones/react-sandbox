@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { AuthConsumer } from '../../context/auth-context';
 import TextInput from '../TextInput';
+import CheckBox from '../CheckBox';
 
 const styles = {
     button: {
@@ -10,46 +12,49 @@ const styles = {
     }
 };
 
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
+            rememberMe: false,
             formErrors: {
                 email: '',
                 password: ''
             },
             isEmailValid: false,
-            isPasswordValid: false,
+            isPasswordValid: false
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(e) {
+    handleChange = e => {
         const { name, value } = e.target;
-        this.setState({
-            [name]: value
-        }, () => this.validateField(name, value));
-    }
+        this.setState(
+            {
+                [name]: value
+            },
+            () => this.validateField(name, value)
+        );
+    };
 
-    handleSubmit(e, login) {
+    handleCheckboxChange = e => {
+        this.setState({
+            rememberMe: e.target.checked
+        });
+    };
+
+    handleSubmit = e => {
         e.preventDefault();
         if (this.isFormValid()) {
-            console.log('process form submission here...');
-            console.log('email: ' + this.state.email);
-            console.log('password: ' + this.state.password);
-            this.setState({
-                email: '',
-                password: '',
-                isEmailValid: false,
-                isPasswordValid: false,
+            this.props.login({
+                email: this.state.email,
+                password: this.state.password,
+                rememberMe: this.state.rememberMe
             });
-            login();
+            this.resetState();
         }
-    }
+    };
 
     isFormValid() {
         const { email, password } = this.state;
@@ -63,16 +68,18 @@ class LoginForm extends React.Component {
         let fieldValidationErrors = this.state.formErrors;
         let { isEmailValid, isPasswordValid } = this.state;
         switch (fieldName) {
-        case 'email':
-            isEmailValid = value.length > 0;
-            fieldValidationErrors.email = isEmailValid ? '' : 'email field is required';
-            break;
-        case 'password':
-            isPasswordValid = value.length > 0;
-            fieldValidationErrors.password = isPasswordValid ? '' : 'password field is required';
-            break;
-        default:
-            break;
+            case 'email':
+                isEmailValid = value.length > 0;
+                fieldValidationErrors.email = isEmailValid ? '' : 'email field is required';
+                break;
+            case 'password':
+                isPasswordValid = value.length > 0;
+                fieldValidationErrors.password = isPasswordValid
+                    ? ''
+                    : 'password field is required';
+                break;
+            default:
+                break;
         }
 
         this.setState({
@@ -86,27 +93,101 @@ class LoginForm extends React.Component {
         return isFetchingData ? 'Logging In...' : 'Log In';
     }
 
+    resetState() {
+        this.setState({
+            email: '',
+            password: '',
+            rememberMe: false,
+            formErrors: {
+                email: '',
+                password: ''
+            },
+            isEmailValid: false,
+            isPasswordValid: false
+        });
+    }
+
     render() {
+        const { isFetchingData } = this.props;
         return (
-            <AuthConsumer>
-                {({ login, fetchingData }) => (
-                    <form className="slds-form slds-form_stacked" style={{backgroundColor: 'ddd'}}
-                        onSubmit={event => this.handleSubmit(event, login)}>
-                        <div className="slds-form-element">
+            <div>
+                <form
+                    className="slds-form slds-form_stacked"
+                    style={{ backgroundColor: 'ddd' }}
+                    onSubmit={event => this.handleSubmit(event)}
+                >
+                    <div className="slds-form-element">
+                        <TextInput
+                            type="text"
+                            size="large"
+                            name="email"
+                            errorMessage={this.state.formErrors.email}
+                            label="Email"
+                            handleChange={this.handleChange}
+                            value={this.state.email}
+                        />
 
-                            <TextInput type="text" size="large" name="email" errorMessage={this.state.formErrors.email}
-                                label="Email" handleChange={this.handleChange} value={this.state.email}/>
+                        <TextInput
+                            type="password"
+                            size="large"
+                            name="password"
+                            errorMessage={this.state.formErrors.password}
+                            label="Password"
+                            handleChange={this.handleChange}
+                            value={this.state.password}
+                        />
 
-                            <TextInput type="password" size="large" name="password" errorMessage={this.state.formErrors.password}
-                                label="Password" handleChange={this.handleChange} value={this.state.password}/>
-
-                            <button type="submit" className="slds-button slds-button_brand slds-m-top_medium" style={styles.button}>{this.getButtonLabel(fetchingData)}</button>
-                        </div>
-                    </form>
-                )}
-            </AuthConsumer>
+                        <button
+                            type="submit"
+                            className="slds-button slds-button_brand slds-m-top_medium"
+                            style={styles.button}
+                        >
+                            {this.getButtonLabel(isFetchingData)}
+                        </button>
+                    </div>
+                </form>
+                <div className="slds-m-top_medium">
+                    <CheckBox
+                        id="checkbox-rememberme"
+                        label="Remember me"
+                        handleChange={this.handleCheckboxChange}
+                    />
+                </div>
+                <div
+                    className="slds-grid slds-grid_align-spread slds-p-top_medium slds-m-top_medium"
+                    style={{ borderTop: '1px solid #ddd' }}
+                >
+                    <a href="javascript:void(0)">Forgot Your Password?</a>
+                    <a href="javascript:void(0)">Use Custom Domain</a>
+                </div>
+            </div>
         );
     }
 }
 
-export default LoginForm;
+LoginForm.propTypes = {
+    isFetchingData: PropTypes.bool,
+    login: PropTypes.func
+};
+
+const mapStateToProps = state => {
+    return {
+        isFetchingData: state.isFetchingData
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: creds => {
+            setTimeout(() => {
+                dispatch({ type: 'USER_LOGIN_SUCCESS' });
+            }, 2000);
+            dispatch({ type: 'USER_LOGIN_REQUEST', data: creds });
+        }
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(LoginForm);
