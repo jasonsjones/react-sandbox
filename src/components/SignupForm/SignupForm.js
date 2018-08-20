@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import TextInput from '../../components/TextInput';
 
 export class SignupForm extends React.Component {
@@ -15,7 +18,9 @@ export class SignupForm extends React.Component {
                 email: '',
                 password: '',
                 confirmPassword: ''
-            }
+            },
+            isEmailValid: false,
+            isPasswordValid: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -23,7 +28,23 @@ export class SignupForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log('submitting form...');
+        if (this.isFormValid()) {
+            this.props.signup({
+                name: this.state.name,
+                email: this.state.email,
+                password: this.state.password
+            });
+            this.setState({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                isEmailValid: false,
+                isPasswordValid: false
+            });
+        } else {
+            console.log('form is not valid');
+        }
     }
 
     handleChange(e) {
@@ -32,35 +53,70 @@ export class SignupForm extends React.Component {
             {
                 [name]: value
             },
-            this.setConfirmPasswordErrorMessage
+            () => this.validateField(name, value)
         );
     }
 
     setConfirmPasswordErrorMessage() {
         if (this.state.confirmPassword && !this.verifyPasswords()) {
-            this.setState({
-                formErrors: {
-                    confirmPassword: 'Passwords do NOT match'
-                }
-            });
+            this.setFieldErrorMessage('confirmPassword', 'Passwords do NOT match');
         } else {
-            this.setState({
-                formErrors: {
-                    confirmPassword: ''
-                }
-            });
+            this.clearFieldErrorMessage('confirmPassword');
         }
     }
 
-    isFormFilled() {
-        return this.state.name && this.state.email && this.state.password;
+    isFormValid() {
+        const { email, password } = this.state;
+        this.validateField('email', email);
+        this.validateField('password', password);
+
+        return this.state.isEmailValid && this.state.isPasswordValid && this.verifyPasswords();
     }
 
     verifyPasswords() {
         return this.state.password === this.state.confirmPassword;
     }
 
+    getButtonLabel(isFetchingData) {
+        return isFetchingData ? 'Signing up...' : 'Sign Up';
+    }
+
+    validateField(fieldName, value) {
+        this.setConfirmPasswordErrorMessage();
+        let { isEmailValid, isPasswordValid } = this.state;
+        switch (fieldName) {
+            case 'email':
+                isEmailValid = value.length > 0;
+                this.setFieldErrorMessage('email', isEmailValid ? '' : 'email field is required');
+                this.setState({ isEmailValid });
+                break;
+            case 'password':
+                isPasswordValid = value.length > 0;
+                this.setFieldErrorMessage(
+                    'password',
+                    isPasswordValid ? '' : 'password field is required'
+                );
+                this.setState({ isPasswordValid });
+                break;
+            default:
+                break;
+        }
+    }
+
+    setFieldErrorMessage(fieldName, message) {
+        let formErrors = { ...this.state.formErrors };
+        formErrors[fieldName] = message;
+        this.setState({ formErrors });
+    }
+
+    clearFieldErrorMessage(fieldName) {
+        let formErrors = { ...this.state.formErrors };
+        formErrors[fieldName] = '';
+        this.setState({ formErrors });
+    }
+
     render() {
+        const { isFetchingData } = this.props;
         return (
             <form className="slds-form slds-form_stacked" onSubmit={this.handleSubmit}>
                 <TextInput
@@ -101,7 +157,7 @@ export class SignupForm extends React.Component {
                 />
                 <div className="slds-grid slds-grid_align-spread slds-grid_vertical-align-center slds-m-top_medium">
                     <button type="submit" className="slds-button slds-button_brand">
-                        Sign Up
+                        {this.getButtonLabel(isFetchingData)}
                     </button>
                     <Link to="/login">Already have account?</Link>
                 </div>
@@ -110,4 +166,29 @@ export class SignupForm extends React.Component {
     }
 }
 
-export default SignupForm;
+SignupForm.propTypes = {
+    isFetchingData: PropTypes.bool,
+    signup: PropTypes.func
+};
+
+const mapStateToProps = state => {
+    return {
+        isFetchingData: state.isFetchingData
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        signup: userData => {
+            setTimeout(() => {
+                dispatch({ type: 'USER_SIGNUP_SUCCESS' });
+            }, 2000);
+            dispatch({ type: 'USER_SIGNUP_REQUEST', data: userData });
+        }
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignupForm);
