@@ -19,6 +19,7 @@ export class SignupForm extends React.Component {
                 password: '',
                 confirmPassword: ''
             },
+            isNameValid: false,
             isEmailValid: false,
             isPasswordValid: false
         };
@@ -34,16 +35,7 @@ export class SignupForm extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             });
-            this.setState({
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: '',
-                isEmailValid: false,
-                isPasswordValid: false
-            });
-        } else {
-            console.log('form is not valid');
+            this.resetState();
         }
     }
 
@@ -57,20 +49,19 @@ export class SignupForm extends React.Component {
         );
     }
 
-    setConfirmPasswordErrorMessage() {
-        if (this.state.confirmPassword && !this.verifyPasswords()) {
-            this.setFieldErrorMessage('confirmPassword', 'Passwords do NOT match');
-        } else {
-            this.clearFieldErrorMessage('confirmPassword');
-        }
-    }
-
     isFormValid() {
-        const { email, password } = this.state;
+        const { name, email, password } = this.state;
+        this.validateField('name', name);
         this.validateField('email', email);
         this.validateField('password', password);
+        this.validateField('confirmPassword', password);
 
-        return this.state.isEmailValid && this.state.isPasswordValid && this.verifyPasswords();
+        return (
+            this.state.isNameValid &&
+            this.state.isEmailValid &&
+            this.state.isPasswordValid &&
+            this.verifyPasswords()
+        );
     }
 
     verifyPasswords() {
@@ -81,38 +72,51 @@ export class SignupForm extends React.Component {
         return isFetchingData ? 'Signing up...' : 'Sign Up';
     }
 
+    resetState() {
+        this.setState({
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            isNameValid: false,
+            isEmailValid: false,
+            isPasswordValid: false
+        });
+    }
+
     validateField(fieldName, value) {
-        this.setConfirmPasswordErrorMessage();
-        let { isEmailValid, isPasswordValid } = this.state;
+        let fieldValidationErrors = this.state.formErrors;
+        let { isNameValid, isEmailValid, isPasswordValid } = this.state;
         switch (fieldName) {
+            case 'name':
+                isNameValid = value.length > 0;
+                fieldValidationErrors.name = isNameValid ? '' : 'name field is required';
+                break;
             case 'email':
                 isEmailValid = value.length > 0;
-                this.setFieldErrorMessage('email', isEmailValid ? '' : 'email field is required');
-                this.setState({ isEmailValid });
+                fieldValidationErrors.email = isEmailValid ? '' : 'email field is required';
                 break;
             case 'password':
                 isPasswordValid = value.length > 0;
-                this.setFieldErrorMessage(
-                    'password',
-                    isPasswordValid ? '' : 'password field is required'
-                );
-                this.setState({ isPasswordValid });
+                fieldValidationErrors.password = isPasswordValid
+                    ? ''
+                    : 'password field is required';
+                break;
+            case 'confirmPassword':
+                fieldValidationErrors.confirmPassword = this.verifyPasswords()
+                    ? ''
+                    : 'passwords do NOT match';
                 break;
             default:
                 break;
         }
-    }
 
-    setFieldErrorMessage(fieldName, message) {
-        let formErrors = { ...this.state.formErrors };
-        formErrors[fieldName] = message;
-        this.setState({ formErrors });
-    }
-
-    clearFieldErrorMessage(fieldName) {
-        let formErrors = { ...this.state.formErrors };
-        formErrors[fieldName] = '';
-        this.setState({ formErrors });
+        this.setState({
+            formErrors: fieldValidationErrors,
+            isNameValid,
+            isEmailValid,
+            isPasswordValid
+        });
     }
 
     render() {
