@@ -13,6 +13,8 @@ const defaultState = {
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case actionTypes.USER_LOGIN_REQUEST:
+            console.log('process form submission here...');
+            console.log(action.data);
             return {
                 ...state,
                 isFetchingData: true

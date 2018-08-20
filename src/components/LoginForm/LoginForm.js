@@ -41,6 +41,7 @@ export class LoginForm extends React.Component {
             () => this.validateField(name, value)
         );
     }
+
     handleCheckboxChange(e) {
         this.setState({
             rememberMe: e.target.checked
@@ -50,17 +51,12 @@ export class LoginForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if (this.isFormValid()) {
-            console.log('process form submission here...');
-            console.log('email: ' + this.state.email);
-            console.log('password: ' + this.state.password);
-            console.log('remember me?: ' + this.state.rememberMe);
-            this.setState({
-                email: '',
-                password: '',
-                isEmailValid: false,
-                isPasswordValid: false
+            this.props.login({
+                email: this.state.email,
+                password: this.state.password,
+                rememberMe: this.state.rememberMe
             });
-            this.props.login();
+            this.resetState();
         }
     }
 
@@ -99,6 +95,20 @@ export class LoginForm extends React.Component {
 
     getButtonLabel(isFetchingData) {
         return isFetchingData ? 'Logging In...' : 'Log In';
+    }
+
+    resetState() {
+        this.setState({
+            email: '',
+            password: '',
+            rememberMe: false,
+            formErrors: {
+                email: '',
+                password: ''
+            },
+            isEmailValid: false,
+            isPasswordValid: false
+        });
     }
 
     render() {
@@ -172,11 +182,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: () => {
+        login: creds => {
             setTimeout(() => {
                 dispatch({ type: 'USER_LOGIN_SUCCESS' });
             }, 2000);
-            dispatch({ type: 'USER_LOGIN_REQUEST' });
+            dispatch({ type: 'USER_LOGIN_REQUEST', data: creds });
         }
     };
 };
