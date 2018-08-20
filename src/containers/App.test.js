@@ -17,7 +17,7 @@ describe('App component', () => {
         expect(wrapper.find('BrowserRouter')).toHaveLength(1);
     });
 
-    it('has two <Route /> component', () => {
-        expect(wrapper.find('Route')).toHaveLength(2);
+    it('has three <Route /> component', () => {
+        expect(wrapper.find('Route')).toHaveLength(3);
     });
 });
