@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import * as actions from '../../actions/actions';
 import TextInput from '../TextInput';
 import CheckBox from '../CheckBox';
 
@@ -180,9 +181,9 @@ const mapDispatchToProps = dispatch => {
     return {
         login: creds => {
             setTimeout(() => {
-                dispatch({ type: 'USER_LOGIN_SUCCESS' });
+                dispatch(actions.userLoginSuccess());
             }, 2000);
-            dispatch({ type: 'USER_LOGIN_REQUEST', data: creds });
+            dispatch(actions.userLoginRequest(creds));
         }
     };
 };

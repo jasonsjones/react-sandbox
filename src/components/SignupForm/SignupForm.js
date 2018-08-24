@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import * as actions from '../../actions/actions';
 import TextInput from '../../components/TextInput';
 
 export class SignupForm extends React.Component {
@@ -183,9 +184,9 @@ const mapDispatchToProps = dispatch => {
     return {
         signup: userData => {
             setTimeout(() => {
-                dispatch({ type: 'USER_SIGNUP_SUCCESS' });
+                dispatch(actions.userSignupSuccess());
             }, 2000);
-            dispatch({ type: 'USER_SIGNUP_REQUEST', data: userData });
+            dispatch(actions.userSignupRequest(userData));
         }
     };
 };
