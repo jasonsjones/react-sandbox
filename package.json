@@ -1,15 +1,17 @@
 {
     "name": "app",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "A React app",
     "main": "index.js",
     "scripts": {
-        "start": "webpack-dev-server --open --config webpack-dev.config.babel.js",
+        "dev": "webpack-dev-server --open --config webpack-dev.config.babel.js",
         "clean": "rimraf dist/",
-        "prebuild": "npm run clean",
+        "prebuild:prod": "yarn clean",
         "build:dev": "babel-node tools/build.js",
         "build:prod": "webpack --config webpack-prod.config.babel.js",
         "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
+        "prestart": "yarn build:prod",
+        "start": "babel-node server/server.js",
         "test": "jest"
     },
     "keywords": [
