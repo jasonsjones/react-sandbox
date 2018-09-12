@@ -1,3 +1,5 @@
+import { findUser } from './mock-data';
+
 const actionTypes = {
     USER_LOGIN_REQUEST: 'USER_LOGIN_REQUEST',
     USER_LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS',
@@ -7,7 +9,11 @@ const actionTypes = {
 
 const defaultState = {
     isAuth: false,
-    isFetchingData: false
+    isFetchingData: false,
+    contextUser: {
+        name: '',
+        email: ''
+    }
 };
 
 export const reducer = (state = defaultState, action) => {
@@ -15,7 +21,8 @@ export const reducer = (state = defaultState, action) => {
         case actionTypes.USER_LOGIN_REQUEST:
             return {
                 ...state,
-                isFetchingData: true
+                isFetchingData: true,
+                contextUser: findUser(action.data.email)
             };
         case actionTypes.USER_LOGIN_SUCCESS:
             return {
