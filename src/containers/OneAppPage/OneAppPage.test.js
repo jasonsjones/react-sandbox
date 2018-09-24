@@ -8,6 +8,18 @@ const contextUser = {
     email: 'barry@starlabs.com'
 };
 
+global.fetch = jest.fn().mockImplementation(() => {
+    const p = new Promise(resolve => {
+        resolve({
+            ok: true,
+            json: () => {
+                return { message: 'mocked response', version: '0.2.11' };
+            }
+        });
+    });
+    return p;
+});
+
 describe('OneAppPage component', () => {
     it('instantiates the OneAppPage component', () => {
         const wrapper = shallow(<OneAppPage contextUser={contextUser} />);
@@ -22,6 +34,6 @@ describe('OneAppPage component', () => {
 
     it('includes one h1 tag', () => {
         const wrapper = shallow(<OneAppPage contextUser={contextUser} />);
-        expect(wrapper.find('h1')).toHaveLength(1);
+        expect(wrapper.find('h1')).toHaveLength(3);
     });
 });

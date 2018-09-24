@@ -17,7 +17,6 @@ export class OneAppPage extends React.Component {
         fetch('http://localhost:3000/api')
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 this.setState({
                     message: data.message,
                     version: data.version,
@@ -25,7 +24,6 @@ export class OneAppPage extends React.Component {
                 });
             })
             .catch(err => {
-                console.log(err);
                 this.setState({
                     error: err.message
                 });
