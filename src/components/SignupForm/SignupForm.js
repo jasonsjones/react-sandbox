@@ -10,17 +10,20 @@ export class SignupForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             confirmPassword: '',
             formErrors: {
-                name: '',
+                firstName: '',
+                lastName: '',
                 email: '',
                 password: '',
                 confirmPassword: ''
             },
-            isNameValid: false,
+            isFirstNameValid: false,
+            isLastNameValid: false,
             isEmailValid: false,
             isPasswordValid: false
         };
@@ -30,7 +33,10 @@ export class SignupForm extends React.Component {
         e.preventDefault();
         if (this.isFormValid()) {
             this.props.signup({
-                name: this.state.name,
+                name: {
+                    first: this.state.firstName,
+                    last: this.state.lastName
+                },
                 email: this.state.email,
                 password: this.state.password
             });
@@ -49,14 +55,16 @@ export class SignupForm extends React.Component {
     };
 
     isFormValid() {
-        const { name, email, password } = this.state;
-        this.validateField('name', name);
+        const { firstName, lastName, email, password } = this.state;
+        this.validateField('firstName', firstName);
+        this.validateField('lastName', lastName);
         this.validateField('email', email);
         this.validateField('password', password);
         this.validateField('confirmPassword', password);
 
         return (
-            this.state.isNameValid &&
+            this.state.isFirstNameValid &&
+            this.state.isLastNameValid &&
             this.state.isEmailValid &&
             this.state.isPasswordValid &&
             this.verifyPasswords()
@@ -73,7 +81,8 @@ export class SignupForm extends React.Component {
 
     resetState() {
         this.setState({
-            name: '',
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -85,11 +94,19 @@ export class SignupForm extends React.Component {
 
     validateField(fieldName, value) {
         let fieldValidationErrors = this.state.formErrors;
-        let { isNameValid, isEmailValid, isPasswordValid } = this.state;
+        let { isFirstNameValid, isLastNameValid, isEmailValid, isPasswordValid } = this.state;
         switch (fieldName) {
-            case 'name':
-                isNameValid = value.length > 0;
-                fieldValidationErrors.name = isNameValid ? '' : 'name field is required';
+            case 'firstName':
+                isFirstNameValid = value.length > 0;
+                fieldValidationErrors.firstName = isFirstNameValid
+                    ? ''
+                    : 'first name field is required';
+                break;
+            case 'lastName':
+                isLastNameValid = value.length > 0;
+                fieldValidationErrors.lastName = isLastNameValid
+                    ? ''
+                    : 'last name field is required';
                 break;
             case 'email':
                 isEmailValid = value.length > 0;
@@ -112,7 +129,8 @@ export class SignupForm extends React.Component {
 
         this.setState({
             formErrors: fieldValidationErrors,
-            isNameValid,
+            isFirstNameValid,
+            isLastNameValid,
             isEmailValid,
             isPasswordValid
         });
@@ -121,16 +139,38 @@ export class SignupForm extends React.Component {
     render() {
         const { isFetchingData } = this.props;
         return (
-            <form className="slds-form slds-form_stacked" onSubmit={this.handleSubmit}>
-                <TextInput
-                    type="text"
-                    size="large"
-                    name="name"
-                    label="Name"
-                    errorMessage={this.state.formErrors.name}
-                    handleChange={this.handleChange}
-                    value={this.state.name}
-                />
+            <form className="slds-form slds-form_compound" onSubmit={this.handleSubmit}>
+                <fieldset className="slds-form-element">
+                    <legend className="slds-form-element__label slds-form-element__legend slds-text-title_caps">
+                        Name
+                    </legend>
+                    <div className="slds-form-element__group">
+                        <div className="slds-form-element__row">
+                            <div className="slds-size_1-of-2 slds-p-right_x-small">
+                                <TextInput
+                                    type="text"
+                                    size="large"
+                                    name="firstName"
+                                    label="First"
+                                    errorMessage={this.state.formErrors.firstName}
+                                    handleChange={this.handleChange}
+                                    value={this.state.firstName}
+                                />
+                            </div>
+                            <div className="slds-size_1-of-2 slds-p-left_x-small">
+                                <TextInput
+                                    type="text"
+                                    size="large"
+                                    name="lastName"
+                                    label="Last"
+                                    errorMessage={this.state.formErrors.lastName}
+                                    handleChange={this.handleChange}
+                                    value={this.state.lastName}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
                 <TextInput
                     type="text"
                     size="large"
