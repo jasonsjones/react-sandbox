@@ -39,7 +39,8 @@ export const reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                isFetchingData: false
+                isFetchingData: false,
+                contextUser: findUser('admin@qc.com')
             };
         default:
             return state;

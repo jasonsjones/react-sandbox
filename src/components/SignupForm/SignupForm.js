@@ -220,11 +220,12 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         signup: userData => {
             setTimeout(() => {
                 dispatch(actions.userSignupSuccess());
+                ownProps.handleSignupSuccess();
             }, 2000);
             dispatch(actions.userSignupRequest(userData));
         }
