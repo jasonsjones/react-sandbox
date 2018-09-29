@@ -14,7 +14,11 @@ export class OneAppPage extends React.Component {
         };
     }
     componentDidMount() {
-        fetch('http://localhost:3000/api')
+        fetch('http://localhost:3000/api', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
             .then(res => res.json())
             .then(data => {
                 this.setState({
