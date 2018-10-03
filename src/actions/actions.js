@@ -13,3 +13,12 @@ export const userLoginRequest = creds => {
 export const userLoginSuccess = () => {
     return { type: 'USER_LOGIN_SUCCESS' };
 };
+
+export const userLogin = creds => {
+    return dispatch => {
+        dispatch(userLoginRequest(creds));
+        setTimeout(() => {
+            dispatch(userLoginSuccess());
+        }, 2000);
+    };
+};

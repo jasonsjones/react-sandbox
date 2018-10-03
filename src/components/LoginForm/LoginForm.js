@@ -179,12 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: creds => {
-            setTimeout(() => {
-                dispatch(actions.userLoginSuccess());
-            }, 2000);
-            dispatch(actions.userLoginRequest(creds));
-        }
+        login: creds => dispatch(actions.userLogin(creds))
     };
 };
 
