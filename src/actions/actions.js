@@ -22,3 +22,29 @@ export const userLogin = creds => {
         }, 2000);
     };
 };
+
+export const getData = () => {
+    return dispatch => {
+        dispatch(getDataRequest());
+        fetch('http://localhost:3000/api', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(data => {
+                return dispatch(getDataSuccess(data));
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+};
+
+export const getDataRequest = () => {
+    return { type: 'DATA_REQUEST' };
+};
+
+export const getDataSuccess = data => {
+    return { type: 'DATA_SUCCESS', data };
+};

@@ -2,36 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import * as actions from '../../actions/actions';
 import GlobalHeader from '../../components/GlobalHeader';
 
 export class OneAppPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            message: '',
-            version: '',
-            error: null
-        };
     }
     componentDidMount() {
-        fetch('http://localhost:3000/api', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-        })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({
-                    message: data.message,
-                    version: data.version,
-                    error: null
-                });
-            })
-            .catch(err => {
-                this.setState({
-                    error: err.message
-                });
-            });
+        this.props.getData();
     }
 
     render() {
@@ -40,25 +19,25 @@ export class OneAppPage extends React.Component {
                 <GlobalHeader />
                 <div style={{ width: '960px', margin: '5rem auto 0' }}>
                     <h1 className="slds-text-heading_large">Hello {this.props.contextUser.name}</h1>
-                    {!this.state.error && (
+                    {!this.props.error && (
                         <div>
                             <h1
                                 style={{ marginTop: '30px' }}
                                 className="slds-text-heading_large slds-text-color_weak"
                             >
-                                Message: {this.state.message}
+                                Message: {this.props.message}
                             </h1>
                             <h1 className="slds-text-heading_large slds-text-color_weak">
-                                Version: {this.state.version}
+                                Version: {this.props.version}
                             </h1>
                         </div>
                     )}
-                    {this.state.error && (
+                    {this.props.error && (
                         <h3
                             style={{ marginTop: '50px' }}
                             className="slds-text-heading_medium slds-text-color_error"
                         >
-                            {this.state.error}
+                            {this.props.error}
                         </h3>
                     )}
                 </div>
@@ -68,13 +47,28 @@ export class OneAppPage extends React.Component {
 }
 
 OneAppPage.propTypes = {
-    contextUser: PropTypes.object
+    contextUser: PropTypes.object,
+    message: PropTypes.string,
+    version: PropTypes.string,
+    error: PropTypes.string,
+    getData: PropTypes.func
 };
 
 const mapStateToProps = state => {
     return {
-        contextUser: state.contextUser
+        contextUser: state.contextUser,
+        message: state.message,
+        version: state.version
     };
 };
 
-export default connect(mapStateToProps)(OneAppPage);
+const mapDispatchToProps = dispatch => {
+    return {
+        getData: () => dispatch(actions.getData())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(OneAppPage);
