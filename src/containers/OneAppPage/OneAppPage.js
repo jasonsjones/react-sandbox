@@ -18,7 +18,12 @@ export class OneAppPage extends React.Component {
             <div>
                 <GlobalHeader />
                 <div style={{ width: '960px', margin: '5rem auto 0' }}>
-                    <h1 className="slds-text-heading_large">Hello {this.props.contextUser.name}</h1>
+                    <h1 className="slds-text-heading_large">
+                        Hello
+                        {` ${this.props.contextUser.name.first} ${
+                            this.props.contextUser.name.last
+                        }`}
+                    </h1>
                     {!this.props.error && (
                         <div>
                             <h1

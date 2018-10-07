@@ -112,6 +112,11 @@ export class LoginForm extends React.Component {
         const { isFetchingData } = this.props;
         return (
             <div>
+                {this.props.error && (
+                    <p className="slds-text-color_error slds-text-heading_small">
+                        {this.props.error}
+                    </p>
+                )}
                 <form
                     className="slds-form slds-form_stacked"
                     style={{ backgroundColor: 'ddd' }}
@@ -168,12 +173,14 @@ export class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
     isFetchingData: PropTypes.bool,
-    login: PropTypes.func
+    login: PropTypes.func,
+    error: PropTypes.string
 };
 
 const mapStateToProps = state => {
     return {
-        isFetchingData: state.isFetchingData
+        isFetchingData: state.isFetchingData,
+        error: state.error
     };
 };
 

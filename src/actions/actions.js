@@ -6,8 +6,8 @@ export const userSignupSuccess = () => {
     return { type: 'USER_SIGNUP_SUCCESS' };
 };
 
-export const userLoginRequest = creds => {
-    return { type: 'USER_LOGIN_REQUEST', data: creds };
+export const userLoginRequest = () => {
+    return { type: 'USER_LOGIN_REQUEST' };
 };
 
 export const userLoginSuccess = () => {
@@ -16,10 +16,29 @@ export const userLoginSuccess = () => {
 
 export const userLogin = creds => {
     return dispatch => {
-        dispatch(userLoginRequest(creds));
-        setTimeout(() => {
-            dispatch(userLoginSuccess());
-        }, 2000);
+        dispatch({ type: 'USER_LOGIN_REQUEST' });
+        fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(creds)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 401) {
+                    return Promise.reject({ message: 'Unauthorized user' });
+                }
+            })
+            .then(data => {
+                if (data) {
+                    dispatch({ type: 'USER_LOGIN_SUCCESS', data });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch({ type: 'USER_LOGIN_ERROR', data: err.message });
+            });
     };
 };
 

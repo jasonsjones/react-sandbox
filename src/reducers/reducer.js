@@ -1,8 +1,7 @@
-import { findUser } from './mock-data';
-
 const actionTypes = {
     USER_LOGIN_REQUEST: 'USER_LOGIN_REQUEST',
     USER_LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS',
+    USER_LOGIN_ERROR: 'USER_LOGIN_ERROR',
     USER_SIGNUP_REQUEST: 'USER_SIGNUP_REQUEST',
     USER_SIGNUP_SUCCESS: 'USER_SIGNUP_SUCCESS',
     DATA_REQUEST: 'DATA_REQUEST',
@@ -14,10 +13,7 @@ const defaultState = {
     isFetchingData: false,
     version: '',
     message: '',
-    contextUser: {
-        name: '',
-        email: ''
-    },
+    contextUser: null,
     error: ''
 };
 
@@ -26,14 +22,22 @@ export const reducer = (state = defaultState, action) => {
         case actionTypes.USER_LOGIN_REQUEST:
             return {
                 ...state,
-                isFetchingData: true,
-                contextUser: findUser(action.data.email)
+                isFetchingData: true
             };
         case actionTypes.USER_LOGIN_SUCCESS:
             return {
                 ...state,
                 isAuth: true,
-                isFetchingData: false
+                isFetchingData: false,
+                error: '',
+                contextUser: action.data.payload.user
+            };
+        case actionTypes.USER_LOGIN_ERROR:
+            return {
+                ...state,
+                isAuth: false,
+                isFetchingData: false,
+                error: action.data
             };
         case actionTypes.USER_SIGNUP_REQUEST:
             return {
@@ -44,8 +48,7 @@ export const reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                isFetchingData: false,
-                contextUser: findUser('admin@qc.com')
+                isFetchingData: false
             };
         case actionTypes.DATA_REQUEST:
             return {
