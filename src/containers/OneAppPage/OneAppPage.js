@@ -16,7 +16,7 @@ export class OneAppPage extends React.Component {
     render() {
         return (
             <div>
-                <GlobalHeader />
+                <GlobalHeader contextUser={this.props.contextUser} />
                 <div style={{ width: '960px', margin: '5rem auto 0' }}>
                     <h1 className="slds-text-heading_large">
                         Hello
