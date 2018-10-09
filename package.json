@@ -12,7 +12,8 @@
         "lint": "eslint webpack.config.js tools/**/*.js src/**/*.js",
         "prestart": "yarn build:prod",
         "start": "babel-node server/server.js",
-        "test": "jest"
+        "test:e2e": "cypress run --headed --no-exit --spec cypress/integration/login.test.js",
+        "test": "jest src/"
     },
     "keywords": [
         "React"
@@ -55,9 +56,11 @@
         "babel-preset-stage-2": "^6.24.1",
         "babel-preset-stage-3": "^6.24.1",
         "css-loader": "^0.28.4",
+        "cypress": "^3.1.0",
         "enzyme": "^3.3.0",
         "enzyme-adapter-react-16": "^1.1.1",
         "eslint": "^4.17.0",
+        "eslint-plugin-cypress": "^2.0.1",
         "eslint-plugin-react": "^7.6.1",
         "extract-text-webpack-plugin": "^4.0.0-beta.0",
         "file-loader": "^1.1.6",

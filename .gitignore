@@ -4,6 +4,7 @@ uploads/
 public/
 dist/
 coverage/
+cypress/videos
 npm-debug.log
 yarn-error.log
 .config/
