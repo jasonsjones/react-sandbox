@@ -8,12 +8,24 @@ const actionTypes = {
     DATA_SUCCESS: 'DATA_SUCCESS'
 };
 
+const getUserFromLocalStorage = () => {
+    const user = JSON.parse(window.localStorage.getItem('contextUser'));
+    console.log(user);
+    return user || null;
+};
+
+const getTokenFromLocalStorage = () => {
+    const token = window.localStorage.getItem('userToken');
+    console.log(token);
+    return token || null;
+};
+
 const defaultState = {
-    isAuth: false,
+    isAuth: !!getTokenFromLocalStorage(),
     isFetchingData: false,
     version: '',
     message: '',
-    contextUser: null,
+    contextUser: getUserFromLocalStorage(),
     error: ''
 };
 
@@ -30,7 +42,22 @@ export const reducer = (state = defaultState, action) => {
                 isAuth: true,
                 isFetchingData: false,
                 error: '',
-                contextUser: action.data.payload.user
+                contextUser: action.data.payload.user,
+                token: action.data.payload.token
+            };
+        case actionTypes.USER_LOGOUT_REQUEST:
+            return {
+                ...state,
+                isFetchingData: true
+            };
+        case actionTypes.USER_LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isAuth: false,
+                isFetchingData: false,
+                error: '',
+                contextUser: null,
+                token: ''
             };
         case actionTypes.USER_LOGIN_ERROR:
             return {

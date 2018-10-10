@@ -14,6 +14,14 @@ export const userLoginSuccess = () => {
     return { type: 'USER_LOGIN_SUCCESS' };
 };
 
+export const userLogoutRequest = () => {
+    return { type: 'USER_LOGOUT_REQUEST' };
+};
+
+export const userLogoutSuccess = () => {
+    return { type: 'USER_LOGOUT_SUCCESS' };
+};
+
 export const userLogin = creds => {
     return dispatch => {
         dispatch({ type: 'USER_LOGIN_REQUEST' });
@@ -33,6 +41,8 @@ export const userLogin = creds => {
             .then(data => {
                 if (data) {
                     dispatch({ type: 'USER_LOGIN_SUCCESS', data });
+                    window.localStorage.setItem('contextUser', JSON.stringify(data.payload.user));
+                    window.localStorage.setItem('userToken', data.payload.token);
                 }
             })
             .catch(err => {
