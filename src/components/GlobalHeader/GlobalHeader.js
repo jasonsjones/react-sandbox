@@ -18,14 +18,21 @@ const GlobalHeader = props => {
                         <SVGInline svg={logo} width="50px" height="50px" />
                     </div>
                 </div>
-                <div className="slds-global-header__item">
-                    <span className="slds-avatar slds-avatar_circle slds-avatar_medium">
-                        <img
-                            alt="user avatar"
-                            src={props.contextUser.avatarUrl}
-                            title="User avatar"
-                        />
-                    </span>
+                <div className="slds-grid slds-grid_align-spread">
+                    <div className="slds-global-header__item">
+                        <span className="slds-avatar slds-avatar_circle slds-avatar_medium">
+                            <img
+                                alt="user avatar"
+                                src={props.contextUser.avatarUrl}
+                                title="User avatar"
+                            />
+                        </span>
+                    </div>
+                    <div className="slds-global-header__item">
+                        <button type="submit" className="slds-button slds-button_brand">
+                            Log out
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
