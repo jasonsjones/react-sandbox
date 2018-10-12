@@ -2,6 +2,8 @@ const actionTypes = {
     USER_LOGIN_REQUEST: 'USER_LOGIN_REQUEST',
     USER_LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS',
     USER_LOGIN_ERROR: 'USER_LOGIN_ERROR',
+    USER_LOGOUT_REQUEST: 'USER_LOGOUT_REQUEST',
+    USER_LOGOUT_SUCCESS: 'USER_LOGOUT_SUCCESS',
     USER_SIGNUP_REQUEST: 'USER_SIGNUP_REQUEST',
     USER_SIGNUP_SUCCESS: 'USER_SIGNUP_SUCCESS',
     DATA_REQUEST: 'DATA_REQUEST',
@@ -10,13 +12,11 @@ const actionTypes = {
 
 const getUserFromLocalStorage = () => {
     const user = JSON.parse(window.localStorage.getItem('contextUser'));
-    console.log(user);
     return user || null;
 };
 
 const getTokenFromLocalStorage = () => {
     const token = window.localStorage.getItem('userToken');
-    console.log(token);
     return token || null;
 };
 
@@ -32,6 +32,8 @@ const defaultState = {
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case actionTypes.USER_LOGIN_REQUEST:
+        case actionTypes.USER_LOGOUT_REQUEST:
+        case actionTypes.DATA_REQUEST:
             return {
                 ...state,
                 isFetchingData: true
@@ -44,11 +46,6 @@ export const reducer = (state = defaultState, action) => {
                 error: '',
                 contextUser: action.data.payload.user,
                 token: action.data.payload.token
-            };
-        case actionTypes.USER_LOGOUT_REQUEST:
-            return {
-                ...state,
-                isFetchingData: true
             };
         case actionTypes.USER_LOGOUT_SUCCESS:
             return {
@@ -76,11 +73,6 @@ export const reducer = (state = defaultState, action) => {
                 ...state,
                 isAuth: true,
                 isFetchingData: false
-            };
-        case actionTypes.DATA_REQUEST:
-            return {
-                ...state,
-                isFetchingData: true
             };
         case actionTypes.DATA_SUCCESS:
             return {

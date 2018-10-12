@@ -13,10 +13,17 @@ export class OneAppPage extends React.Component {
         this.props.getData();
     }
 
+    handleLogout = () => {
+        this.props.userLogout();
+    };
+
     render() {
         return (
             <div>
-                <GlobalHeader contextUser={this.props.contextUser} />
+                <GlobalHeader
+                    contextUser={this.props.contextUser}
+                    handleLogout={this.handleLogout}
+                />
                 <div style={{ width: '960px', margin: '5rem auto 0' }}>
                     <h1 className="slds-text-heading_large">
                         Hello
@@ -56,7 +63,8 @@ OneAppPage.propTypes = {
     message: PropTypes.string,
     version: PropTypes.string,
     error: PropTypes.string,
-    getData: PropTypes.func
+    getData: PropTypes.func,
+    userLogout: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -69,7 +77,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getData: () => dispatch(actions.getData())
+        getData: () => dispatch(actions.getData()),
+        userLogout: () => dispatch(actions.userLogout())
     };
 };
 

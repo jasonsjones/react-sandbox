@@ -77,3 +77,21 @@ export const getDataRequest = () => {
 export const getDataSuccess = data => {
     return { type: 'DATA_SUCCESS', data };
 };
+
+export const userLogout = () => {
+    window.localStorage.removeItem('contextUser');
+    window.localStorage.removeItem('userToken');
+    return dispatch => {
+        dispatch({ type: 'USER_LOGOUT_REQUEST' });
+        fetch('http://localhost:3000/api/logout', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        })
+            .then(res => res.json())
+            .then(() => {
+                return dispatch({ type: 'USER_LOGOUT_SUCCESS' });
+            })
+            .catch(err => console.log(err));
+    };
+};

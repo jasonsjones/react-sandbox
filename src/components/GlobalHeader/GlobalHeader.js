@@ -29,7 +29,11 @@ const GlobalHeader = props => {
                         </span>
                     </div>
                     <div className="slds-global-header__item">
-                        <button type="submit" className="slds-button slds-button_brand">
+                        <button
+                            type="submit"
+                            className="slds-button slds-button_brand"
+                            onClick={props.handleLogout}
+                        >
                             Log out
                         </button>
                     </div>
@@ -40,7 +44,8 @@ const GlobalHeader = props => {
 };
 
 GlobalHeader.propTypes = {
-    contextUser: PropTypes.object
+    contextUser: PropTypes.object,
+    handleLogout: PropTypes.func
 };
 
 export default GlobalHeader;
