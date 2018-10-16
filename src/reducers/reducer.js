@@ -32,7 +32,6 @@ const defaultState = {
 export const reducer = (state = defaultState, action) => {
     switch (action.type) {
         case actionTypes.USER_LOGIN_REQUEST:
-        case actionTypes.USER_LOGOUT_REQUEST:
         case actionTypes.DATA_REQUEST:
             return {
                 ...state,

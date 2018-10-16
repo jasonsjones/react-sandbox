@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../actions/actions';
 import GlobalHeader from '../../components/GlobalHeader';
+import Spinner from '../../components/Spinner';
 
 export class OneAppPage extends React.Component {
     constructor(props) {
@@ -18,38 +19,37 @@ export class OneAppPage extends React.Component {
     };
 
     render() {
+        const { contextUser, isFetchingData, message, version, error } = this.props;
         return (
             <div>
-                <GlobalHeader
-                    contextUser={this.props.contextUser}
-                    handleLogout={this.handleLogout}
-                />
+                <GlobalHeader contextUser={contextUser} handleLogout={this.handleLogout} />
                 <div style={{ width: '960px', margin: '5rem auto 0' }}>
                     <h1 className="slds-text-heading_large">
                         Hello
-                        {` ${this.props.contextUser.name.first} ${
-                            this.props.contextUser.name.last
-                        }`}
+                        {` ${contextUser.name.first} ${contextUser.name.last}`}
                     </h1>
-                    {!this.props.error && (
-                        <div>
-                            <h1
-                                style={{ marginTop: '30px' }}
-                                className="slds-text-heading_large slds-text-color_weak"
-                            >
-                                Message: {this.props.message}
-                            </h1>
-                            <h1 className="slds-text-heading_large slds-text-color_weak">
-                                Version: {this.props.version}
-                            </h1>
-                        </div>
-                    )}
-                    {this.props.error && (
+                    {isFetchingData && <Spinner />}
+
+                    {!error &&
+                        !isFetchingData && (
+                            <div>
+                                <h1
+                                    style={{ marginTop: '30px' }}
+                                    className="slds-text-heading_large slds-text-color_weak"
+                                >
+                                    Message: {message}
+                                </h1>
+                                <h1 className="slds-text-heading_large slds-text-color_weak">
+                                    Version: {version}
+                                </h1>
+                            </div>
+                        )}
+                    {error && (
                         <h3
                             style={{ marginTop: '50px' }}
                             className="slds-text-heading_medium slds-text-color_error"
                         >
-                            {this.props.error}
+                            {error}
                         </h3>
                     )}
                 </div>
@@ -59,6 +59,7 @@ export class OneAppPage extends React.Component {
 }
 
 OneAppPage.propTypes = {
+    isFetchingData: PropTypes.bool,
     contextUser: PropTypes.object,
     message: PropTypes.string,
     version: PropTypes.string,
@@ -69,6 +70,7 @@ OneAppPage.propTypes = {
 
 const mapStateToProps = state => {
     return {
+        isFetchingData: state.isFetchingData,
         contextUser: state.contextUser,
         message: state.message,
         version: state.version
